@@ -13,6 +13,13 @@ Description: >
 
 Parameters:
 
+  UserName:
+    Description: >
+      User Name
+    NoEcho: True
+    Type: String
+    Default: "LabUser"
+
   Password:
     Description: >
       User password
@@ -29,9 +36,10 @@ Resources:
     Properties:
       LoginProfile:
         Password: !Ref Password
-      UserName: "LabUser"
+      UserName: !Ref UserName
 
   LabPolicy:
+    DependsOn: LabUser
     Type: 'AWS::IAM::Policy'
     Properties:
       PolicyName: LabUsers
