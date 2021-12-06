@@ -1,0 +1,17 @@
+#bucket.yaml
+#
+#Never use GUI opts, only cli overrides
+#unless a SE must be involved
+#
+#lab_1.1.1, create a simple bucket
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: >
+  Create a pipeline for CloudFormation CI/CD
+
+#RESOURCES##################################################
+
+Resources:
+
+  SimpleBucket:
+      Type: AWS::S3::Bucket
