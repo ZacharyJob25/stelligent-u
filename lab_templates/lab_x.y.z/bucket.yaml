@@ -1,13 +1,23 @@
-#bucket.yaml
+#.yaml
 #
 #Never use GUI opts, only cli overrides
 #unless a SE must be involved
 #
-#lab_1.1.1, create a simple bucket
+#lab_x.y.z, 
 
 AWSTemplateFormatVersion: 2010-09-09
 Description: >
-  Create a simple bucket 
+  TODO
+
+#PARAMETERS#################################################
+
+Parameters:
+
+  SomeThing:
+    Description: XYZ 
+    Type: String
+    AllowedPattern: ^[0-9a-zA-Z]+$
+    Default: ABC
 
 #RESOURCES##################################################
 
