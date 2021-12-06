@@ -1,0 +1,77 @@
+#param_bucket.yaml
+#
+#Never use GUI opts, only cli overrides
+#unless a SE must be involved
+#
+#lab_1.1.2, Create a bucket using a parameter for the name 
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: >
+  Parameter named bucket
+
+#PARAMETERS#################################################
+
+Parameters:
+
+  Password:
+    Description: >
+      User password
+    NoEcho: True
+    Type: String
+
+#RESOURCES##################################################
+
+Transform: 'AWS::Serverless-2016-10-31'
+Resources:
+
+  LabUser:
+    Type: AWS::IAM::User
+    Properties:
+      LoginProfile:
+        Password: !Ref Password
+      UserName: "LabUser"
+
+  LabPolicy:
+    Type: 'AWS::IAM::Policy'
+    Properties:
+      PolicyName: LabUsers
+      Users:
+        - LabUser
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Sid: All 
+          Effect: Allow
+          Action:
+          - s3:GetBucketPolicyStatus
+          - s3:GetBucketPublicAccessBlock
+          - s3:GetLifecycleConfiguration
+          - s3:GetBucketTagging
+          - s3:GetInventoryConfiguration
+          - s3:GetBucketWebsite
+          - s3:GetBucketLogging
+          - s3:GetBucketVersioning
+          - s3:GetBucketAcl
+          - s3:GetBucketNotification
+          - s3:GetBucketPolicy
+          - s3:GetBucketObjectLockConfiguration
+          - s3:GetEncryptionConfiguration
+          - s3:GetIntelligentTieringConfiguration
+          - s3:GetBucketRequestPayment
+          - s3:GetBucketCORS
+          - s3:GetMetricsConfiguration
+          - s3:GetBucketOwnershipControls
+          Resource: arn:aws:s3:::*
+        - Sid: Objects
+          Effect: Allow
+          Action:
+          - s3:GetObjectVersionTorrent
+          - s3:GetObjectAcl
+          - s3:GetObject
+          - s3:GetObjectTorrent
+          - s3:GetObjectRetention
+          - s3:GetObjectVersionTagging
+          - s3:GetObjectVersionAcl
+          - s3:GetObjectTagging
+          - s3:GetObjectVersion
+          Resource: arn:aws:s3:::*/*
