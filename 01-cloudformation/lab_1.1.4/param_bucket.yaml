@@ -1,0 +1,49 @@
+#param_bucket.yaml
+#
+#Never use GUI opts, only cli overrides
+#unless a SE must be involved
+#
+#lab_1.1.2, Create a bucket using a parameter for the name 
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: >
+  Parameter named bucket
+
+#PARAMETERS#################################################
+
+Parameters:
+
+  BucketName:
+    Description: Name of the bucket 
+    Type: String
+    AllowedPattern: ^[0-9a-zA-Z\-]+$
+    Default: super-unique-bucket-name-25
+
+#CONDITIONS#################################################
+
+Conditions:
+
+  PreferedRegion: !Equals
+    - !Ref "AWS::Region"
+    - "us-east-1"
+  NotPreferedRegion: !Not
+    - !Equals
+      - !Ref "AWS::Region"
+      - "us-east-1"
+
+#RESOURCES##################################################
+
+Resources:
+
+
+  #Note I use Sub to evade cfn-lint ... nagging
+  SimpleBucketPrefered:
+      Type: AWS::S3::Bucket
+      Condition: PreferedRegion
+      Properties:
+        BucketName: !Sub "${AWS::AccountId}-${BucketName}"
+  SimpleBucket:
+      Type: AWS::S3::Bucket
+      Condition: NotPreferedRegion
+      Properties:
+        BucketName: !Sub "${AWS::Region}-${BucketName}"
