@@ -1,0 +1,28 @@
+{
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Principal": "arn:aws:iam::account_id:user/zachary.job.labs",
+			"Action": "s3:*",
+			"Resource": "arn:aws:s3:::some-cli-bucket-by-zach/*"
+		},
+		{
+			"Effect": "Allow",
+			"Principal": "*",
+			"Action":["s3:GetObject","s3:GetObjectVersion"],
+			"Resource": "arn:aws:s3:::some-cli-bucket-by-zach/*"
+		},
+		{
+			"Effect": "Deny",
+			"NotPrincipal": {
+				"AWS": 
+				[
+					"arn:aws:iam::account_id:user/zachary.job.labs",
+					"arn:aws:iam::account_id:root"
+				]
+			},
+			"NotAction":["s3:GetObject","s3:GetObjectVersion"],
+			"Resource": "arn:aws:s3:::some-cli-bucket-by-zach/*"
+		}
+	]
+}		
