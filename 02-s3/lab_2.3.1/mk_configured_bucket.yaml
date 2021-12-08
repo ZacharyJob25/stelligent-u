@@ -1,0 +1,48 @@
+#.yaml
+#
+#Never use GUI opts, only cli overrides
+#unless a SE must be involved
+#
+#lab_x.y.z, 
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: >
+  TODO
+
+#PARAMETERS#################################################
+
+Parameters:
+
+  BucketName:
+    Description: Name of the bucket
+    Type: String
+    AllowedPattern: ^[0-9a-zA-Z\-]+$
+    Default: some-bucket
+
+#RESOURCES##################################################
+
+Resources:
+
+  SomeBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: Private
+      PublicAccessBlockConfiguration:
+        RestrictPublicBuckets: True
+        BlockPublicPolicy: True
+        IgnorePublicAcls: True
+        BlockPublicAcls: True
+      BucketName: !Sub "${BucketName}-${AWS::Region}"
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      VersioningConfiguration:
+        Status: Enabled
+      Tags:
+        - Key: Source  
+          Value: CloudFormation
+        - Key: Type 
+          Value: AWS::S3::Bucket
+        - Key: Name
+          Value: SomeBucket 
